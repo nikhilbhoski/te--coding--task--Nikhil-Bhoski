@@ -49,19 +49,12 @@ public class TaskoneTest {
 	@Test
 	public void testValidloginSuccessful(){
 		
-		WebElement userName = driver.findElement(By.id("username"));
-		WebElement passWord = driver.findElement(By.id("password"));
-		WebElement loginbutton = driver.findElement(By.xpath("//button[@type='submit']"));
 		
-		//Login to the page 
-		
-		userName.sendKeys(validUsername);
-		passWord.sendKeys(validPassword);
-		loginbutton.click();
+		dologin(validUsername, validPassword);
 		wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//div[@class='flash success']")));
 		WebElement wb = driver.findElement(By.xpath("//div[@class='flash success']"));
 		String text = wb.getText();
-		System.out.println(text);
+		
 		if(wb.isDisplayed() && text.contains("You logged into a secure area!")){
 			
 			Assert.assertTrue(true);
@@ -77,22 +70,14 @@ public class TaskoneTest {
 	}
 	
 	@Test
-	public void testValidlogoutSuccessful(){
+	public void testValidlogoutSuccessful()
+	{
 		
-		WebElement userName = driver.findElement(By.id("username"));
-		WebElement passWord = driver.findElement(By.id("password"));
-		WebElement loginbutton = driver.findElement(By.xpath("//button[@type='submit']"));
-		
-		//Login to the page 
-		
-		userName.sendKeys(validUsername);
-		passWord.sendKeys(validPassword);
-		loginbutton.click();
+		dologin(validUsername, validPassword);
 		wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//div[@class='flash success']")));
 		WebElement wb = driver.findElement(By.xpath("//div[@class='flash success']"));
 		WebElement logOutbutton = driver.findElement(By.xpath("//a[@class='button secondary radius']"));
 		String text = wb.getText();
-		System.out.println(text);
 		logOutbutton.click();
 		wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.id("username")));
 		WebElement logOutmessage = driver.findElement(By.xpath("//div[@class='flash success']"));
@@ -116,17 +101,10 @@ public class TaskoneTest {
 	}
 	
 	@Test
-	public void testLoginWithInvalidUsername(){
-		
-		WebElement userName = driver.findElement(By.id("username"));
-		WebElement passWord = driver.findElement(By.id("password"));
-		WebElement loginbutton = driver.findElement(By.xpath("//button[@type='submit']"));
-		
-		//Login to the page 
-		
-		userName.sendKeys(invalidUsername);
-		passWord.sendKeys(validPassword);
-		loginbutton.click();
+	public void testLoginWithInvalidUsername()
+	{
+				
+		dologin(invalidUsername, validPassword);
 		wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//div[@class='flash error']")));
 		WebElement wb = driver.findElement(By.xpath("//div[@class='flash error']"));
 		String text = wb.getText();
@@ -146,17 +124,11 @@ public class TaskoneTest {
 	}
 	
 	@Test
-	public void testLoginWithInvalidPassword(){
+	public void testLoginWithInvalidPassword()
+	{
 		
-		WebElement userName = driver.findElement(By.id("username"));
-		WebElement passWord = driver.findElement(By.id("password"));
-		WebElement loginbutton = driver.findElement(By.xpath("//button[@type='submit']"));
 		
-		//Login to the page 
-		
-		userName.sendKeys(validUsername);
-		passWord.sendKeys(invalidPassword);
-		loginbutton.click();
+		dologin(validUsername, invalidPassword);
 		wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//div[@class='flash error']")));
 		WebElement wb = driver.findElement(By.xpath("//div[@class='flash error']"));
 		String text = wb.getText();
@@ -173,6 +145,23 @@ public class TaskoneTest {
 			
 			Assert.assertTrue(false);
 		}
+	}
+	
+	public void dologin(String userName, String password)
+	{
+		
+		WebElement userNametext = driver.findElement(By.id("username"));
+		WebElement passWord = driver.findElement(By.id("password"));
+		WebElement loginbutton = driver.findElement(By.xpath("//button[@type='submit']"));
+		
+		//Login to the page 
+		
+		userNametext.sendKeys(userName);
+		passWord.sendKeys(password);
+		loginbutton.click();
+		
+		
+		
 	}
 	
 
