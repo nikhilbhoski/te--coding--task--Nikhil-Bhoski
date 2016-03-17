@@ -46,8 +46,8 @@ public class TaskoneTest {
 		driver.close();
 	}
 	
-	//@Test
-	public void testValidlogin(){
+	@Test
+	public void testValidloginSuccessful(){
 		
 		WebElement userName = driver.findElement(By.id("username"));
 		WebElement passWord = driver.findElement(By.id("password"));
@@ -62,7 +62,7 @@ public class TaskoneTest {
 		WebElement wb = driver.findElement(By.xpath("//div[@class='flash success']"));
 		String text = wb.getText();
 		System.out.println(text);
-		if(wb.isDisplayed()){
+		if(wb.isDisplayed() && text.contains("You logged into a secure area!")){
 			
 			Assert.assertTrue(true);
 			
@@ -72,6 +72,45 @@ public class TaskoneTest {
 			
 			Assert.assertTrue(false);
 		}
+				
+		
+	}
+	
+	@Test
+	public void testValidlogoutSuccessful(){
+		
+		WebElement userName = driver.findElement(By.id("username"));
+		WebElement passWord = driver.findElement(By.id("password"));
+		WebElement loginbutton = driver.findElement(By.xpath("//button[@type='submit']"));
+		
+		//Login to the page 
+		
+		userName.sendKeys(validUsername);
+		passWord.sendKeys(validPassword);
+		loginbutton.click();
+		wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//div[@class='flash success']")));
+		WebElement wb = driver.findElement(By.xpath("//div[@class='flash success']"));
+		WebElement logOutbutton = driver.findElement(By.xpath("//a[@class='button secondary radius']"));
+		String text = wb.getText();
+		System.out.println(text);
+		logOutbutton.click();
+		wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.id("username")));
+		WebElement logOutmessage = driver.findElement(By.xpath("//div[@class='flash success']"));
+		String logoutText = logOutmessage.getText();
+		
+        if(logOutmessage.isDisplayed() && logoutText.contains("You logged out of the secure area!"))
+        {
+			
+			Assert.assertTrue(true);
+			
+			
+		}
+		else{
+			
+			Assert.assertTrue(false);
+		}
+		
+		
 				
 		
 	}
@@ -90,8 +129,9 @@ public class TaskoneTest {
 		loginbutton.click();
 		wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//div[@class='flash error']")));
 		WebElement wb = driver.findElement(By.xpath("//div[@class='flash error']"));
+		String text = wb.getText();
 		
-        if(wb.isDisplayed())
+        if(wb.isDisplayed() && text.contains("Your username is invalid!"))
         {
 			
 			Assert.assertTrue(true);
@@ -119,8 +159,9 @@ public class TaskoneTest {
 		loginbutton.click();
 		wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//div[@class='flash error']")));
 		WebElement wb = driver.findElement(By.xpath("//div[@class='flash error']"));
+		String text = wb.getText();
 		
-        if(wb.isDisplayed())
+        if(wb.isDisplayed() && text.contains("Your password is invalid!"))
         {
 			
 			Assert.assertTrue(true);
